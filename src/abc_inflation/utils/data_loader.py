@@ -93,7 +93,7 @@ def preprocess_data(
     if handle_missing == 'interpolate':
         series = series.interpolate(method='linear')
     elif handle_missing == 'forward_fill':
-        series = series.fillna(method='ffill')
+        series = series.ffill()
     elif handle_missing == 'drop':
         series = series.dropna()
     else:

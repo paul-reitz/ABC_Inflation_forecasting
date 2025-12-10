@@ -90,8 +90,10 @@ class ABCInflationModel:
         elif self.distance_metric == "manhattan":
             return np.sum(np.abs(summary_stats_obs - summary_stats_sim))
         elif self.distance_metric == "weighted":
-            # Weighted Euclidean with inverse variance weighting
-            weights = 1.0 / (np.var(summary_stats_obs) + 1e-10)
+            # Weighted Euclidean with element-wise inverse variance weighting
+            # Compute variance for each summary statistic dimension
+            variance = np.var(summary_stats_obs) if summary_stats_obs.ndim == 1 else 1.0
+            weights = 1.0 / (variance + 1e-10)
             return np.sqrt(np.sum(weights * (summary_stats_obs - summary_stats_sim) ** 2))
         else:
             raise ValueError(f"Unknown distance metric: {self.distance_metric}")

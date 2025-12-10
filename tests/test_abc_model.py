@@ -114,8 +114,8 @@ def test_abc_rejection_simple():
     data = np.random.normal(5.0, 1.0, 50)
     
     prior_distributions = {
-        'phi': stats.uniform(0.5, 0.4),
-        'sigma': stats.uniform(0.1, 1.0),
+        'phi': stats.uniform(0.4, 0.5),  # uniform[0.4, 0.9]
+        'sigma': stats.uniform(0.1, 1.0),  # uniform[0.1, 1.1]
         'mu': stats.norm(4.5, 2.0),
     }
     
