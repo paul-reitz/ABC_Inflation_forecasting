@@ -1,0 +1,147 @@
+# Data Configuration
+# Paths and settings for data loading and preprocessing
+
+data_sources:
+  inflation:
+    file: "data/raw/cpi_inflation.csv"
+    date_column: "date"
+    value_column: "inflation"
+    frequency: "monthly"  # monthly, quarterly, annual
+    
+  features:
+    file: "data/raw/economic_indicators.csv"
+    date_column: "date"
+    
+    variables:
+      # Macroeconomic indicators
+      gdp_growth:
+        source: "BEA"
+        description: "Real GDP growth rate"
+      
+      unemployment:
+        source: "BLS"
+        description: "Unemployment rate"
+      
+      capacity_utilization:
+        source: "Federal Reserve"
+        description: "Capacity utilization rate"
+      
+      industrial_production:
+        source: "Federal Reserve"
+        description: "Industrial production index"
+      
+      # Monetary variables
+      m2_growth:
+        source: "FRED"
+        description: "M2 money supply growth"
+      
+      fed_funds_rate:
+        source: "Federal Reserve"
+        description: "Federal funds rate"
+      
+      treasury_10y:
+        source: "FRED"
+        description: "10-year Treasury yield"
+      
+      term_spread:
+        source: "FRED"
+        description: "10Y - 3M Treasury spread"
+      
+      # External variables
+      exchange_rate:
+        source: "Federal Reserve"
+        description: "Trade-weighted dollar index"
+      
+      oil_price:
+        source: "EIA"
+        description: "WTI crude oil price"
+      
+      commodity_index:
+        source: "World Bank"
+        description: "Global commodity price index"
+      
+      import_price:
+        source: "BLS"
+        description: "Import price index"
+      
+      # Sentiment/expectations
+      consumer_confidence:
+        source: "Conference Board"
+        description: "Consumer confidence index"
+      
+      inflation_expectations:
+        source: "Survey"
+        description: "Survey-based inflation expectations"
+
+preprocessing:
+  missing_values:
+    method: "interpolate"  # Options: interpolate, forward_fill, backward_fill, mean
+    max_gap: 3  # Maximum gap size to interpolate
+  
+  outliers:
+    remove: true
+    method: "iqr"  # Options: iqr, zscore
+    threshold: 3.0
+  
+  transformations:
+    gdp_growth:
+      type: "pct_change"
+      periods: 1
+    
+    m2_growth:
+      type: "pct_change"
+      periods: 12
+    
+    oil_price:
+      type: "log_diff"
+      periods: 1
+  
+  standardization:
+    enabled: true
+    method: "zscore"  # Options: zscore, minmax
+  
+  seasonal_adjustment:
+    enabled: false
+    method: "x13"  # Options: x13, stl
+    period: 12
+
+feature_engineering:
+  lags:
+    enabled: true
+    max_lag: 12
+    variables: ["gdp_growth", "unemployment", "oil_price"]
+  
+  growth_rates:
+    enabled: true
+    periods: [1, 3, 12]
+    variables: ["industrial_production", "m2"]
+  
+  rolling_stats:
+    enabled: true
+    windows: [3, 6, 12]
+    statistics: ["mean", "std"]
+    variables: ["oil_price", "exchange_rate"]
+  
+  interactions:
+    enabled: false
+    pairs:
+      - ["gdp_growth", "unemployment"]
+      - ["oil_price", "exchange_rate"]
+
+sample_split:
+  training:
+    start: "1990-01-01"
+    end: "2015-12-31"
+  
+  validation:
+    start: "2016-01-01"
+    end: "2019-12-31"
+  
+  test:
+    start: "2020-01-01"
+    end: "2023-12-31"
+
+output:
+  processed_data: "data/processed/inflation_data_processed.csv"
+  feature_importance: "results/feature_importance.csv"
+  summary_stats: "results/summary_statistics.csv"

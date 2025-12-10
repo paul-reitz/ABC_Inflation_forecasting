@@ -1,0 +1,138 @@
+\section{Data and Variables}
+
+\subsection{Data Sources}
+
+We use monthly data from [specify period, e.g., 1990:01-2023:12] for [specify region/country]. Data are obtained from:
+
+\begin{itemize}
+    \item Federal Reserve Economic Data (FRED)
+    \item Bureau of Labor Statistics (BLS)
+    \item Bureau of Economic Analysis (BEA)
+    \item Organization for Economic Co-operation and Development (OECD)
+\end{itemize}
+
+\subsection{Inflation Measure}
+
+The dependent variable is the year-over-year Consumer Price Index (CPI) inflation rate:
+\begin{align}
+    \pi_t = \frac{CPI_t - CPI_{t-12}}{CPI_{t-12}} \times 100
+\end{align}
+
+We also consider alternative measures:
+\begin{itemize}
+    \item Core CPI (excluding food and energy)
+    \item PCE (Personal Consumption Expenditures) price index
+    \item PPI (Producer Price Index)
+\end{itemize}
+
+\subsection{Multivariate Features}
+
+\subsubsection{Macroeconomic Indicators}
+
+\begin{table}[h]
+\centering
+\caption{Macroeconomic Feature Variables}
+\begin{tabular}{lll}
+\toprule
+Variable & Description & Source \\
+\midrule
+GDP Growth & Real GDP growth rate & BEA \\
+Unemployment & Unemployment rate & BLS \\
+Capacity Util. & Capacity utilization rate & Federal Reserve \\
+Industrial Prod. & Industrial production index & Federal Reserve \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Monetary Variables}
+
+\begin{table}[h]
+\centering
+\caption{Monetary Feature Variables}
+\begin{tabular}{lll}
+\toprule
+Variable & Description & Source \\
+\midrule
+M2 Growth & M2 money supply growth & FRED \\
+Fed Funds Rate & Federal funds rate & Federal Reserve \\
+10Y Treasury & 10-year Treasury yield & FRED \\
+Term Spread & 10Y - 3M spread & FRED \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{External Variables}
+
+\begin{table}[h]
+\centering
+\caption{External Feature Variables}
+\begin{tabular}{lll}
+\toprule
+Variable & Description & Source \\
+\midrule
+Exchange Rate & Trade-weighted dollar index & Federal Reserve \\
+Oil Price & WTI crude oil price & EIA \\
+Commodity Index & Global commodity price index & World Bank \\
+Import Price & Import price index & BLS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data Preprocessing}
+
+\subsubsection{Handling Missing Values}
+
+Missing values are handled using:
+\begin{itemize}
+    \item Linear interpolation for short gaps ($< 3$ months)
+    \item Forward/backward filling for edge cases
+    \item Exclusion of variables with $>10\%$ missing data
+\end{itemize}
+
+\subsubsection{Transformations}
+
+Variables are transformed to achieve stationarity:
+\begin{itemize}
+    \item Growth rates for level variables (GDP, money supply)
+    \item First differences for interest rates
+    \item Log differences for price indices
+\end{itemize}
+
+\subsubsection{Standardization}
+
+Features are standardized to have zero mean and unit variance:
+\begin{align}
+    \tilde{x}_{it} = \frac{x_{it} - \bar{x}_i}{s_i}
+\end{align}
+
+This ensures comparable scales for estimation.
+
+\subsection{Descriptive Statistics}
+
+\begin{table}[h]
+\centering
+\caption{Summary Statistics}
+\begin{tabular}{lcccccc}
+\toprule
+Variable & Mean & Std. Dev. & Min & Max & Skew & Kurt \\
+\midrule
+CPI Inflation & 2.85 & 1.45 & -2.10 & 9.06 & 1.23 & 4.56 \\
+GDP Growth & 2.34 & 1.89 & -8.45 & 7.23 & -0.45 & 3.21 \\
+Unemployment & 5.67 & 1.34 & 3.45 & 14.78 & 1.89 & 6.78 \\
+Oil Price & 65.43 & 28.56 & 15.23 & 145.67 & 0.67 & 2.98 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+[Note: Fill in with actual data statistics]
+
+\subsection{Sample Splitting}
+
+We split the sample into:
+\begin{itemize}
+    \item \textbf{Training period}: [Year1] - [Year2] (for parameter estimation)
+    \item \textbf{Validation period}: [Year2] - [Year3] (for model selection)
+    \item \textbf{Test period}: [Year3] - [Year4] (for out-of-sample evaluation)
+\end{itemize}
+
+This allows for proper out-of-sample forecast evaluation.

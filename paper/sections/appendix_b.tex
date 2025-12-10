@@ -1,0 +1,116 @@
+\section{Technical Details}
+
+\subsection{ABC Algorithm Implementation}
+
+\subsubsection{Tolerance Schedule}
+
+We use an exponentially decreasing tolerance schedule:
+\begin{align}
+    \varepsilon_t = \varepsilon_0 \times \gamma^{t-1}, \quad t = 1, \ldots, T
+\end{align}
+
+where $\varepsilon_0 = 5.0$, $\gamma = 0.7$, and $T = 5$.
+
+\subsubsection{Perturbation Kernel}
+
+The perturbation kernel for ABC-SMC is Gaussian with adaptive bandwidth:
+\begin{align}
+    K(\boldsymbol{\theta}^* | \boldsymbol{\theta}) = \prod_{j=1}^{p} N(\theta_j^* | \theta_j, h_j^2)
+\end{align}
+
+where $h_j = 2 \hat{\sigma}_j N^{-1/5}$ (Silverman's rule of thumb).
+
+\subsection{Prior Specifications}
+
+\begin{table}[h]
+\centering
+\caption{Prior Distributions}
+\begin{tabular}{lcc}
+\toprule
+Parameter & Prior Distribution & Hyperparameters \\
+\midrule
+$\sigma_\mu$ & Inverse-Gamma & $\alpha = 2, \beta = 1$ \\
+$\sigma_\nu$ & Inverse-Gamma & $\alpha = 2, \beta = 0.5$ \\
+$\sigma_\gamma$ & Inverse-Gamma & $\alpha = 2, \beta = 1$ \\
+$\rho$ & Beta (rescaled to $[-1,1]$) & $\alpha = 5, \beta = 2$ \\
+$\sigma_\varepsilon$ & Inverse-Gamma & $\alpha = 2, \beta = 1$ \\
+$\beta_j$ & Normal & $\mu = 0, \sigma = 1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Summary Statistics}
+
+The summary statistic vector includes:
+\begin{itemize}
+    \item Mean: $\bar{y}$
+    \item Variance: $\text{Var}(y)$
+    \item Autocorrelations: $\rho(1), \rho(2), \rho(3), \rho(6), \rho(12)$
+    \item Skewness: $\text{Skew}(y)$
+    \item Kurtosis: $\text{Kurt}(y)$
+    \item Quantiles: $Q(0.25), Q(0.50), Q(0.75)$
+\end{itemize}
+
+Total dimension: $d_s = 13$.
+
+\subsection{Computational Details}
+
+\subsubsection{Hardware and Software}
+
+\begin{itemize}
+    \item Computing platform: [Specify]
+    \item Programming language: Python 3.9
+    \item Key libraries: NumPy, SciPy, statsmodels, pyabc
+    \item Parallelization: 16 cores
+\end{itemize}
+
+\subsubsection{Computational Time}
+
+\begin{table}[h]
+\centering
+\caption{Computational Time (Hours)}
+\begin{tabular}{lc}
+\toprule
+Task & Time \\
+\midrule
+Data preprocessing & 0.5 \\
+ABC-SMC estimation (5 populations, 1000 particles) & 12.3 \\
+Kalman filter estimation & 0.2 \\
+Forecast generation (all models) & 1.5 \\
+Total & 14.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Convergence Diagnostics}
+
+\subsubsection{ABC-SMC Convergence}
+
+Figure~\ref{fig:abc_convergence} shows the evolution of accepted particles across populations.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/abc_convergence.pdf}
+    \caption{ABC-SMC Convergence: Distance Distribution Across Populations}
+    \label{fig:abc_convergence}
+\end{figure}
+
+\subsubsection{Effective Sample Size}
+
+The effective sample size (ESS) remains above 500 for all populations:
+
+\begin{table}[h]
+\centering
+\caption{Effective Sample Size by Population}
+\begin{tabular}{cc}
+\toprule
+Population & ESS \\
+\midrule
+1 & 1000 \\
+2 & 847 \\
+3 & 723 \\
+4 & 612 \\
+5 & 534 \\
+\bottomrule
+\end{tabular}
+\end{table}

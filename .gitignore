@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Data files (large datasets should not be committed)
+data/raw/*.csv
+data/raw/*.xlsx
+data/raw/*.zip
+data/processed/*.pkl
+data/processed/*.npy
+
+# Model outputs
+models/saved_models/*.pkl
+models/saved_models/*.h5
+models/saved_models/*.pt
+
+# Results and outputs
+results/figures/*.png
+results/figures/*.pdf
+results/tables/*.tex
+results/tables/*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# R
+.Rhistory
+.RData
+.Rproj.user
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.pdf
+
+# Keep structure files
+!.gitkeep

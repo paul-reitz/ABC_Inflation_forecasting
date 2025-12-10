@@ -1,0 +1,122 @@
+\section{Methodology}
+
+\subsection{State-Space Model Specification}
+
+Our structural state-space model for inflation decomposes the inflation rate into unobserved components while incorporating multivariate economic features.
+
+\subsubsection{General Framework}
+
+The state-space representation consists of two equations:
+
+\begin{align}
+y_t &= \mathbf{Z}_t \boldsymbol{\alpha}_t + \boldsymbol{\beta}' \mathbf{x}_t + \varepsilon_t, \quad \varepsilon_t \sim N(0, H_t) \label{eq:obs}\\
+\boldsymbol{\alpha}_t &= \mathbf{T}_t \boldsymbol{\alpha}_{t-1} + \mathbf{R}_t \boldsymbol{\eta}_t, \quad \boldsymbol{\eta}_t \sim N(0, \mathbf{Q}_t) \label{eq:state}
+\end{align}
+
+where:
+\begin{itemize}
+    \item $y_t$ is the observed inflation rate at time $t$
+    \item $\boldsymbol{\alpha}_t$ is the $(m \times 1)$ state vector containing unobserved components
+    \item $\mathbf{x}_t$ is the $(k \times 1)$ vector of exogenous features
+    \item $\boldsymbol{\beta}$ is the $(k \times 1)$ vector of feature coefficients
+    \item $\mathbf{Z}_t$, $\mathbf{T}_t$, $\mathbf{R}_t$ are system matrices
+    \item $\varepsilon_t$ and $\boldsymbol{\eta}_t$ are observation and state innovations
+\end{itemize}
+
+\subsubsection{Component Decomposition}
+
+The state vector $\boldsymbol{\alpha}_t$ contains:
+
+\begin{enumerate}
+    \item \textbf{Trend component} ($\mu_t$, $\nu_t$): Long-run inflation level and slope
+    \begin{align}
+        \mu_t &= \mu_{t-1} + \nu_{t-1} + \eta_{\mu,t}, \quad \eta_{\mu,t} \sim N(0, \sigma^2_\mu)\\
+        \nu_t &= \nu_{t-1} + \eta_{\nu,t}, \quad \eta_{\nu,t} \sim N(0, \sigma^2_\nu)
+    \end{align}
+    
+    \item \textbf{Cyclical component} ($\gamma_t$): Business cycle fluctuations
+    \begin{align}
+        \gamma_t = \rho \gamma_{t-1} + \eta_{\gamma,t}, \quad \eta_{\gamma,t} \sim N(0, \sigma^2_\gamma)
+    \end{align}
+    where $|\rho| < 1$ ensures stationarity.
+    
+    \item \textbf{Seasonal component} (optional for monthly/quarterly data)
+\end{enumerate}
+
+\subsubsection{Multivariate Features}
+
+The feature vector $\mathbf{x}_t$ includes:
+\begin{itemize}
+    \item Macroeconomic indicators: GDP growth, unemployment rate, industrial production
+    \item Monetary variables: Money supply growth, interest rates
+    \item External factors: Exchange rates, commodity prices
+    \item Expectations: Survey-based inflation expectations
+\end{itemize}
+
+\subsection{Approximate Bayesian Computation}
+
+\subsubsection{ABC Framework}
+
+Given observed data $y_{1:T}^{obs}$, we seek the posterior distribution:
+\begin{align}
+    p(\boldsymbol{\theta} | y_{1:T}^{obs}) \propto p(y_{1:T}^{obs} | \boldsymbol{\theta}) p(\boldsymbol{\theta})
+\end{align}
+
+where $\boldsymbol{\theta}$ contains all model parameters (variance parameters, AR coefficients, feature weights).
+
+When the likelihood $p(y_{1:T}^{obs} | \boldsymbol{\theta})$ is intractable, ABC approximates the posterior by:
+
+\begin{enumerate}
+    \item Sample $\boldsymbol{\theta}^*$ from prior $p(\boldsymbol{\theta})$
+    \item Simulate data $y_{1:T}^{sim}$ from the model with $\boldsymbol{\theta}^*$
+    \item Compute summary statistics $\mathbf{s}(y_{1:T})$
+    \item Accept $\boldsymbol{\theta}^*$ if $d(\mathbf{s}(y^{obs}), \mathbf{s}(y^{sim})) < \varepsilon$
+\end{enumerate}
+
+\subsubsection{Summary Statistics}
+
+We use summary statistics that capture key features of inflation:
+\begin{itemize}
+    \item Mean and variance
+    \item Autocorrelations at various lags
+    \item Quantiles
+    \item Volatility measures
+\end{itemize}
+
+\subsubsection{ABC-SMC Algorithm}
+
+To improve efficiency, we implement Sequential Monte Carlo ABC:
+
+\begin{algorithm}[H]
+    \caption{ABC-SMC for State-Space Models}
+    \begin{algorithmic}
+        \FOR{$t = 1$ to $T$}
+            \STATE Set tolerance $\varepsilon_t$ (decreasing sequence)
+            \FOR{$i = 1$ to $N$}
+                \IF{$t = 1$}
+                    \STATE Sample $\boldsymbol{\theta}^{(i)}$ from prior
+                \ELSE
+                    \STATE Sample from previous particles with weights
+                    \STATE Perturb using kernel
+                \ENDIF
+                \STATE Simulate data with $\boldsymbol{\theta}^{(i)}$
+                \STATE Compute distance $d_i$
+                \IF{$d_i < \varepsilon_t$}
+                    \STATE Accept and compute weight
+                \ENDIF
+            \ENDFOR
+        \ENDFOR
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Forecasting}
+
+Point forecasts are generated via:
+\begin{align}
+    \hat{y}_{T+h|T} = E[y_{T+h} | y_{1:T}]
+\end{align}
+
+Prediction intervals use the posterior predictive distribution:
+\begin{align}
+    p(y_{T+h} | y_{1:T}) = \int p(y_{T+h} | \boldsymbol{\theta}) p(\boldsymbol{\theta} | y_{1:T}) d\boldsymbol{\theta}
+\end{align}

@@ -1,0 +1,48 @@
+\section{Literature Review}
+
+\subsection{Inflation Forecasting}
+
+The literature on inflation forecasting is vast and diverse. Traditional approaches include:
+
+\begin{itemize}
+    \item \textbf{Phillips curve models} \citep{phillips1958, stock2007}: Link inflation to unemployment and output gaps
+    \item \textbf{ARIMA models} \citep{box1970}: Pure time series approaches
+    \item \textbf{VAR models} \citep{sims1980}: Multivariate autoregressive systems
+    \item \textbf{Factor models} \citep{stock2002}: Extract common factors from large datasets
+\end{itemize}
+
+Recent advances have explored machine learning methods \citep{goulet2018, medeiros2021}, including neural networks, random forests, and regularized regression for inflation forecasting.
+
+\subsection{State-Space Models for Economic Time Series}
+
+State-space models provide a flexible framework for time series analysis, particularly useful for decomposing series into unobserved components:
+
+\begin{itemize}
+    \item \textbf{Unobserved components models} \citep{harvey1989, durbin2012}: Decompose series into trend, seasonal, and irregular components
+    \item \textbf{Dynamic factor models} \citep{geweke1977}: Combine state-space structure with factor extraction
+    \item \textbf{Time-varying parameter models} \citep{primiceri2005}: Allow coefficients to evolve over time
+\end{itemize}
+
+Applications to inflation include \citet{stock2007} on trend-cycle decomposition and \citet{clark2006} on real-time forecasting.
+
+\subsection{Approximate Bayesian Computation}
+
+ABC methods have gained popularity in fields where likelihood evaluation is difficult:
+
+\begin{itemize}
+    \item \textbf{Basic ABC} \citep{tavare1997, beaumont2002}: Rejection and regression adjustment
+    \item \textbf{ABC-SMC} \citep{sisson2007, toni2009}: Sequential Monte Carlo for improved efficiency
+    \item \textbf{Applications} \citep{marin2012, sisson2018}: Population genetics, ecology, epidemiology
+\end{itemize}
+
+Economic applications of ABC remain limited but are growing \citep{forneron2018, hansen2020}. To our knowledge, this is the first application to inflation forecasting.
+
+\subsection{Research Gap}
+
+While state-space models and ABC methods have been developed separately, their combination for inflation forecasting remains unexplored. This paper fills this gap by:
+
+\begin{enumerate}
+    \item Demonstrating the feasibility of ABC for state-space inflation models
+    \item Showing how multivariate features can be effectively incorporated
+    \item Providing empirical evidence on forecast performance
+\end{enumerate}

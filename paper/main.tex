@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{setspace}
+
+% Document settings
+\doublespacing
+\bibliographystyle{apalike}
+
+% Title and authors
+\title{Inflation Forecasting with Approximate Bayesian Computation and Structural Bayesian State-Space Models}
+
+\author{
+    Author Name$^{1}$ \\
+    \small $^{1}$Affiliation \\
+    \small Email: author@email.com
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper develops a novel approach to inflation forecasting that combines Approximate Bayesian Computation (ABC) with structural Bayesian state-space models incorporating multivariate economic features. Traditional inflation forecasting methods often struggle with parameter uncertainty and model misspecification. We address these challenges by employing ABC methods to estimate the posterior distribution of model parameters when the likelihood function is intractable or computationally expensive. Our state-space framework decomposes inflation into trend, cyclical, and seasonal components while incorporating relevant macroeconomic indicators. Using data from [specify period and region], we demonstrate that our ABC-based approach provides accurate point forecasts and well-calibrated prediction intervals. The results show that incorporating multivariate features through state-space models, combined with the flexibility of ABC estimation, offers substantial improvements over traditional benchmark models. The methodology is particularly valuable for central banks and policymakers requiring robust inflation forecasts with proper uncertainty quantification.
+
+\noindent \textbf{Keywords:} Inflation forecasting, Approximate Bayesian Computation, State-space models, Bayesian inference, Multivariate features
+
+\noindent \textbf{JEL Classification:} C11, C32, C53, E31, E37
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% Main sections
+\input{sections/01_introduction}
+\input{sections/02_literature_review}
+\input{sections/03_methodology}
+\input{sections/04_data}
+\input{sections/05_empirical_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+
+% Bibliography
+\bibliography{references}
+
+% Appendices
+\appendix
+\input{sections/appendix_a}
+\input{sections/appendix_b}
+
+\end{document}
