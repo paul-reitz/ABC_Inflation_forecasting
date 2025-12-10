@@ -1,0 +1,106 @@
+# Model Configuration
+# Configuration for state-space models and ABC estimation
+
+model:
+  name: "abc_state_space_inflation"
+  type: "unobserved_components"
+  
+  components:
+    trend:
+      enabled: true
+      type: "local_linear_trend"  # Options: local_level, local_linear_trend
+    
+    cycle:
+      enabled: true
+      ar_order: 1
+    
+    seasonal:
+      enabled: false  # Set to true for monthly/quarterly data
+      period: 12  # 12 for monthly, 4 for quarterly
+  
+  features:
+    enabled: true
+    standardize: true
+    lag_orders: [0, 1, 2, 3]  # Include contemporaneous and lagged values
+
+abc:
+  algorithm: "smc"  # Options: rejection, smc
+  
+  smc:
+    n_particles: 1000
+    n_populations: 5
+    tolerance_schedule:
+      initial: 5.0
+      decay: 0.7
+    
+    perturbation_kernel: "gaussian"
+    adaptive_bandwidth: true
+  
+  rejection:
+    n_samples: 10000
+    max_iterations: 1000000
+    tolerance: 1.0
+  
+  summary_statistics:
+    - mean
+    - variance
+    - autocorr_1
+    - autocorr_2
+    - autocorr_3
+    - autocorr_6
+    - autocorr_12
+    - skewness
+    - kurtosis
+    - q25
+    - q50
+    - q75
+  
+  distance_metric: "euclidean"  # Options: euclidean, weighted_euclidean, mahalanobis
+
+priors:
+  sigma_mu:
+    distribution: "inverse_gamma"
+    alpha: 2.0
+    beta: 1.0
+  
+  sigma_nu:
+    distribution: "inverse_gamma"
+    alpha: 2.0
+    beta: 0.5
+  
+  sigma_gamma:
+    distribution: "inverse_gamma"
+    alpha: 2.0
+    beta: 1.0
+  
+  rho:
+    distribution: "beta"
+    alpha: 5.0
+    beta: 2.0
+    range: [-0.99, 0.99]
+  
+  sigma_eps:
+    distribution: "inverse_gamma"
+    alpha: 2.0
+    beta: 1.0
+  
+  beta:
+    distribution: "normal"
+    mean: 0.0
+    std: 1.0
+
+forecasting:
+  horizon: 12  # Forecast horizon in periods
+  method: "kalman_filter"  # Options: kalman_filter, simulation
+  
+  intervals:
+    enabled: true
+    alpha: 0.05  # For 95% prediction intervals
+    n_simulations: 1000
+  
+  probabilistic:
+    enabled: true
+    n_simulations: 10000
+
+random_seed: 42
+verbose: true

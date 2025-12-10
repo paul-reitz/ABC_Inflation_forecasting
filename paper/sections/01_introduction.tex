@@ -1,0 +1,43 @@
+\section{Introduction}
+
+\subsection{Motivation}
+
+Accurate inflation forecasting is critical for monetary policy formulation, financial planning, and economic decision-making. Central banks worldwide rely on inflation forecasts to set interest rates and implement policy measures. However, inflation dynamics are complex, influenced by numerous macroeconomic variables, and subject to structural changes over time. Traditional forecasting methods, while useful, often face challenges in:
+
+\begin{itemize}
+    \item Adequately capturing the time-varying nature of inflation dynamics
+    \item Incorporating diverse information from multiple economic indicators
+    \item Quantifying parameter and model uncertainty
+    \item Handling nonlinearities and regime changes
+\end{itemize}
+
+This paper addresses these challenges by developing a novel forecasting framework that combines structural Bayesian state-space models with Approximate Bayesian Computation (ABC) methods.
+
+\subsection{Research Questions}
+
+The primary research questions addressed in this paper are:
+
+\begin{enumerate}
+    \item Can ABC methods provide reliable parameter estimates for state-space inflation models when traditional likelihood-based methods are computationally prohibitive?
+    \item Does incorporating multivariate economic features through state-space models improve inflation forecast accuracy?
+    \item How does the ABC-based approach compare to traditional estimation methods in terms of forecast performance and uncertainty quantification?
+    \item What are the most important macroeconomic features for inflation forecasting within our framework?
+\end{enumerate}
+
+\subsection{Contributions}
+
+This paper makes several contributions to the inflation forecasting literature:
+
+\begin{itemize}
+    \item \textbf{Methodological innovation}: We introduce ABC methods to the inflation forecasting context, demonstrating their effectiveness for estimating complex state-space models.
+    
+    \item \textbf{Comprehensive framework}: We develop a unified framework that combines structural decomposition (trend, cycle, seasonal) with multivariate feature integration.
+    
+    \item \textbf{Practical application}: We provide empirical evidence on the performance of ABC-based forecasts using real-world data, with comparisons to standard benchmark models.
+    
+    \item \textbf{Uncertainty quantification}: Our approach naturally provides full posterior distributions for parameters and forecasts, enabling robust uncertainty assessment.
+\end{itemize}
+
+\subsection{Paper Structure}
+
+The remainder of the paper is organized as follows. Section 2 reviews the relevant literature on inflation forecasting, state-space models, and ABC methods. Section 3 presents the methodology, including the state-space model specification and ABC algorithm. Section 4 describes the data and feature construction. Section 5 presents empirical results, including parameter estimates and forecast evaluation. Section 6 discusses the findings and their implications. Section 7 concludes.

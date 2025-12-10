@@ -1,0 +1,116 @@
+\section{Discussion}
+
+\subsection{Interpretation of Results}
+
+\subsubsection{ABC Method Performance}
+
+Our results demonstrate that ABC methods are viable for estimating complex state-space models:
+
+\begin{itemize}
+    \item \textbf{Computational efficiency}: ABC-SMC converges with reasonable computational cost
+    \item \textbf{Parameter uncertainty}: Full posterior distributions provide rich uncertainty quantification
+    \item \textbf{Robustness}: Less sensitive to specification choices than maximum likelihood
+\end{itemize}
+
+The success of ABC in this context suggests broader applicability to other economic forecasting problems with complex likelihood functions.
+
+\subsubsection{Role of Multivariate Features}
+
+Incorporating multiple economic indicators significantly improves forecast accuracy:
+
+\begin{itemize}
+    \item \textbf{Phillips curve variables}: Unemployment and output gap remain relevant
+    \item \textbf{Cost-push factors}: Oil prices and exchange rates capture supply-side pressures
+    \item \textbf{Monetary indicators}: Money supply growth provides additional signal
+    \item \textbf{Expectations}: Survey-based expectations help anchor forecasts
+\end{itemize}
+
+The state-space framework effectively synthesizes information from diverse sources.
+
+\subsubsection{State-Space Decomposition}
+
+The structural decomposition provides economic insights:
+
+\begin{itemize}
+    \item \textbf{Trend}: Captures changes in long-run inflation target/expectations
+    \item \textbf{Cycle}: Reflects demand-side business cycle fluctuations
+    \item \textbf{Seasonal}: Accounts for within-year patterns
+\end{itemize}
+
+This decomposition aids policy analysis by separating persistent from transitory inflation movements.
+
+\subsection{Policy Implications}
+
+\subsubsection{For Central Banks}
+
+Our framework offers several benefits for monetary policymakers:
+
+\begin{enumerate}
+    \item \textbf{Enhanced forecasts}: More accurate inflation projections support better policy decisions
+    \item \textbf{Uncertainty bands}: Credible intervals help assess risks to inflation outlook
+    \item \textbf{Scenario analysis}: Can simulate effects of different policy paths
+    \item \textbf{Real-time updating}: Flexible framework accommodates incoming data
+\end{enumerate}
+
+\subsubsection{For Market Participants}
+
+Financial market participants can benefit from:
+
+\begin{itemize}
+    \item Better inflation forecasts for pricing inflation-linked securities
+    \item Probabilistic forecasts for risk management
+    \item Decomposition aids understanding of inflation drivers
+\end{itemize}
+
+\subsection{Comparison with Existing Methods}
+
+\subsubsection{Advantages over Traditional Approaches}
+
+Compared to standard forecasting methods, our approach offers:
+
+\begin{itemize}
+    \item \textbf{vs. ARIMA}: Incorporates economic theory and multivariate information
+    \item \textbf{vs. VAR}: More flexible in handling nonlinearities and time variation
+    \item \textbf{vs. Factor models}: Explicit structural interpretation of components
+    \item \textbf{vs. Machine learning}: Provides uncertainty quantification and interpretability
+\end{itemize}
+
+\subsubsection{Computational Considerations}
+
+While ABC requires simulation, modern computing makes it feasible:
+
+\begin{itemize}
+    \item Parallel computing speeds up ABC-SMC
+    \item Adaptive tolerance schedules improve efficiency
+    \item One-time estimation cost vs. easy forecast updating
+\end{itemize}
+
+\subsection{Limitations and Future Research}
+
+\subsubsection{Current Limitations}
+
+Several limitations warrant mention:
+
+\begin{itemize}
+    \item \textbf{Summary statistics}: Choice affects ABC performance; optimal selection remains challenging
+    \item \textbf{Linear framework}: Current model assumes linear relationships
+    \item \textbf{Parameter stability}: Assumes constant parameters; may need extension
+    \item \textbf{Feature selection}: Manual feature choice; automated selection could improve
+\end{itemize}
+
+\subsubsection{Future Research Directions}
+
+Promising extensions include:
+
+\begin{enumerate}
+    \item \textbf{Nonlinear models}: Extend to threshold or regime-switching specifications
+    \item \textbf{Time-varying parameters}: Allow coefficients to evolve over time
+    \item \textbf{High-dimensional features}: Use regularization or factor methods
+    \item \textbf{Real-time analysis}: Develop methods for mixed-frequency data and nowcasting
+    \item \textbf{International applications}: Apply to multi-country settings
+    \item \textbf{Alternative ABC methods}: Explore regression ABC, synthetic likelihood
+\end{enumerate}
+
+\subsection{Broader Implications}
+
+This research demonstrates that modern Bayesian computational methods can enhance traditional econometric tools. The combination of structural economic modeling with flexible computational inference represents a promising direction for economic forecasting more broadly.
