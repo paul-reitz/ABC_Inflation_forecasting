@@ -67,20 +67,21 @@ class ARIMAModel:
         if self.fitted_model is None:
             raise ValueError("Model must be fitted before forecasting")
         
-        forecast_result = self.fitted_model.forecast(steps=steps, alpha=alpha)
+        # Get forecast object
+        forecast_obj = self.fitted_model.get_forecast(steps=steps)
         
-        # Handle different return types from statsmodels
-        if isinstance(forecast_result, pd.DataFrame):
-            forecast = forecast_result['mean'].values
-            lower = forecast_result.iloc[:, 1].values
-            upper = forecast_result.iloc[:, 2].values
-        else:
-            forecast = forecast_result
-            # Get prediction intervals separately
-            forecast_obj = self.fitted_model.get_forecast(steps=steps)
-            pred_int = forecast_obj.conf_int(alpha=alpha)
-            lower = pred_int.iloc[:, 0].values
-            upper = pred_int.iloc[:, 1].values
+        # Extract forecast values
+        forecast = forecast_obj.predicted_mean
+        if hasattr(forecast, 'values'):
+            forecast = forecast.values
+        
+        # Get confidence intervals
+        pred_int = forecast_obj.conf_int(alpha=alpha)
+        if hasattr(pred_int, 'values'):
+            pred_int = pred_int.values
+        
+        lower = pred_int[:, 0]
+        upper = pred_int[:, 1]
         
         return forecast, lower, upper
     
@@ -177,11 +178,21 @@ class SARIMAModel:
         if self.fitted_model is None:
             raise ValueError("Model must be fitted before forecasting")
         
+        # Get forecast object
         forecast_obj = self.fitted_model.get_forecast(steps=steps)
-        forecast = forecast_obj.predicted_mean.values
+        
+        # Extract forecast values
+        forecast = forecast_obj.predicted_mean
+        if hasattr(forecast, 'values'):
+            forecast = forecast.values
+        
+        # Get confidence intervals
         pred_int = forecast_obj.conf_int(alpha=alpha)
-        lower = pred_int.iloc[:, 0].values
-        upper = pred_int.iloc[:, 1].values
+        if hasattr(pred_int, 'values'):
+            pred_int = pred_int.values
+        
+        lower = pred_int[:, 0]
+        upper = pred_int[:, 1]
         
         return forecast, lower, upper
     
